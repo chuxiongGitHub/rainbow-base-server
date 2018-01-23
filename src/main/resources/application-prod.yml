@@ -1,0 +1,5 @@
+beetl:
+  base-root: /dist/
+
+logging:
+  file: /data/java/logs/rainbow-server

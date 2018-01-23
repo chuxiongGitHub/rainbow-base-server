@@ -1,0 +1,73 @@
+spring:
+  application:
+    name: rainbow-server
+
+  # mariadb 和 druid 配置
+  datasource:
+    url: jdbc:mysql://localhost:3306/rainbow-server
+    username: root
+    password: admin123
+    driver-class-name: org.mariadb.jdbc.Driver
+    druid:
+      initial-size: 1
+      min-idle: 1
+      max-active: 10
+      max-wait: 30000
+      min-evictable-idle-time-millis: 1800000
+      max-evictable-idle-time-millis: 25200000
+      validation-query: SELECT 1
+      test-while-idle: true
+      test-on-borrow: false
+      max-open-prepared-statements: 20
+      use-global-data-source-stat: true
+      keep-alive: true
+      filters: mergeStat,wall
+      filter:
+        stat:
+          log-slow-sql: true
+          slow-sql-millis: 1000
+        wall:
+          config:
+            delete-allow: false
+      stat-view-servlet:
+        login-username: rainbow
+        login-password: 123
+
+  # spring mvc 配置
+  resources:
+    static-locations: file://${beetl.base-root}static/
+  mvc:
+    static-path-pattern: /static/**
+
+  # jackson 配置
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    default-property-inclusion: non_null
+
+  # redis 配置
+  redis:
+    url: redis://localhost:6379
+    database: 0
+
+# mybatis 配置
+mybatis-plus:
+  mapper-locations: classpath*:mapper/**/*Mapper.xml
+  global-config:
+    meta-object-handler: com.rainbow.base.commons.SuperMetaObjectHandler
+    id-type: 1
+
+# actuator 配置
+management:
+  security:
+    enabled: false
+
+# beetl 配置
+beetl:
+  base-root: /work/rainbow-manage-webapp/dist/
+  properties:
+    DELIMITER_PLACEHOLDER_START: _{
+    DELIMITER_STATEMENT_START: <!--#
+    DELIMITER_STATEMENT_END: -->
+    RESOURCE.root: /
+
